@@ -13,4 +13,6 @@ router.put('/food-logs/:id', FoodLogsController.updateFoodLog);
 
 router.delete('/food-logs/:id', FoodLogsController.deleteFoodLog);
 
+router.get('/food-logs/:patientId/:date', FoodLogsController.getCaloriesForPatientByDate);
+
 module.exports = router;

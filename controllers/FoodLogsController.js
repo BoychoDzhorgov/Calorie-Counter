@@ -35,3 +35,14 @@ exports.updateFoodLog = async (req, res, next) => {
         res.status(500).json({ message: 'Food log cannot be updated' });
     }
 }
+
+exports.getCaloriesForPatientByDate = async (req, res) => {
+    const { patientId, date } = req.params;
+    
+    try {
+        const consumedCalories = await FoodLog.getConsumedCaloriesForPatientByDate(patientId, date);
+        res.json({ consumedCalories });
+    } catch (error) {
+        res.status(500).json({ message: 'Cannot get information' });
+    }
+};

@@ -44,5 +44,23 @@ module.exports = class FoodLog {
                 resolve(result.affectedRows > 0);
             });
         });
+    };
+    
+    
+    static getConsumedCaloriesForPatientByDate(patientId, date) {
+        return new Promise((resolve, reject) => {
+            if (!patientId || !date) {
+                reject(new Error(`There is no item with id: ${id} or date: ${date}`));
+                return;
+            }
+            let query = `SELECT SUM(food_logs.quantity * foods.calories_per_100g / 100) AS total_calories
+                FROM food_logs
+                INNER JOIN foods ON food_logs.food_id = foods.id
+                WHERE food_logs.patient_id = ? AND DATE(food_logs.consumed_at) = ?`;
+            db.query(query, [patientId, date], (error, results) => {
+                if (error) return reject(error);
+                resolve(results[0].consumedCalories || 0);
+            });
+        });
     }
 }
