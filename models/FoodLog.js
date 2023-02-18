@@ -10,6 +10,10 @@ module.exports = class FoodLog {
     
     static create(patientId, foodId, quantityConsumed, consumedAt) {
         return new Promise((resolve, reject) => {
+            if (!patientId || !foodId || !quantityConsumed || !consumedAt) {
+                reject(new Error('All function arguments are required'));
+                return;
+            }
             let query = `INSERT INTO food_logs (patient_id, food_id, quantity, consumed_at) VALUES (?, ?, ?, ?)`;
             db.query(query, [patientId, foodId, quantityConsumed, consumedAt], (err, result) => {
                 if (err) reject(err);
@@ -20,6 +24,10 @@ module.exports = class FoodLog {
     
     static delete(id) {
         return new Promise((resolve, reject) => {
+            if (!id) {
+                reject(new Error(`There is no item with id: ${id}`));
+                return;
+            }
             let query = `DELETE FROM food_logs WHERE id = ?`;
             db.query(query, [id], (err, result) => {
                 if (err) reject(err);
