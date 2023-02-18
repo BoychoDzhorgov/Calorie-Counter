@@ -8,8 +8,11 @@ module.exports = class Patient {
 
     static create(firstName, lastName) {
         return new Promise((resolve, reject) => {
-            db.query('INSERT INTO patients (first_name, last_name) VALUES (?, ?)', [firstName, lastName], (err, result) => {
-                if (err) reject(err);
+            let query = `INSERT INTO patients (first_name, last_name) VALUES (?, ?)`;
+            db.query(query, [firstName, lastName], (err, result) => {
+                if (err) {
+                    reject(err)
+                };
                 resolve(result.insertId);
             });
         });

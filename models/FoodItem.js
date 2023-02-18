@@ -8,7 +8,8 @@ module.exports = class Food {
     
     static create(name, caloriesPer100g) {
         return new Promise((resolve, reject) => {
-            db.query('INSERT INTO foods (name, calories_per_100g) VALUES (?, ?)', [name, caloriesPer100g], (err, result) => {
+            let query = `INSERT INTO foods (name, calories_per_100g) VALUES (?, ?)`;
+            db.query(query, [name, caloriesPer100g], (err, result) => {
                 if (err) reject(err);
                 resolve(result.insertId);
             });
@@ -17,7 +18,8 @@ module.exports = class Food {
     
     static delete(id) {
         return new Promise((resolve, reject) => {
-            db.query('UPDATE foods SET deleted_at = NOW() WHERE id = ?', [id], (err, result) => {
+            let query = `UPDATE foods SET deleted_at = NOW() WHERE id = ?`;
+            db.query(query, [id], (err, result) => {
                 if (err) reject(err);
                 resolve(result.affectedRows > 0);
             });
